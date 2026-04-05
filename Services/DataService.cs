@@ -12,19 +12,19 @@ public class DataService : ContentPage
         string chave = "6135072afe7f6cec1537d5cb08a5a1a2";
 
         string url = $"https://api.openweathermap.org/data/2.5/weather?" +
-                     $"q={cidade}&units=metric&appid={chave}";
+                     $"q={cidade}&units=metric&appid={chave}&lang=pt_br";
 
         using (HttpClient client = new HttpClient())
         {
             HttpResponseMessage resp = await client.GetAsync(url);
 
-            // ❌ Cidade não encontrada
+            // Cidade não encontrada
             if (resp.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 throw new Exception("Cidade não encontrada!");
             }
 
-            // ❌ Outros erros
+            // Outros erros
             if (!resp.IsSuccessStatusCode)
             {
                 throw new Exception("Erro ao buscar dados da API.");
@@ -37,7 +37,7 @@ public class DataService : ContentPage
             DateTime sunrise = time.AddSeconds((double)rascunho["sys"]["sunrise"]).ToLocalTime();
             DateTime sunset = time.AddSeconds((double)rascunho["sys"]["sunset"]).ToLocalTime();
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
             t = new()
             {
                 lat = (double)rascunho["coord"]["lat"],
